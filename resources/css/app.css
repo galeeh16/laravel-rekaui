@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant sidebar-collapsed (&:where([data-sidebar-collapsed] *));
+
+@theme {
+    --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Animations for reka-ui popovers (dropdown, select) and the mobile drawer */
+    --animate-pop-in: pop-in 140ms ease-out;
+    --animate-pop-out: pop-out 100ms ease-in;
+    --animate-fade-in: fade-in 180ms ease-out;
+    --animate-fade-out: fade-out 150ms ease-in;
+    --animate-slide-in-left: slide-in-left 220ms cubic-bezier(0.2, 0, 0, 1);
+    --animate-slide-out-left: slide-out-left 180ms ease-in;
+    --animate-slide-in-right: slide-in-right 220ms cubic-bezier(0.2, 0, 0, 1);
+    --animate-slide-out-right: slide-out-right 180ms ease-in;
+    --animate-slide-in-bottom: slide-in-bottom 240ms cubic-bezier(0.2, 0, 0, 1);
+    --animate-slide-out-bottom: slide-out-bottom 180ms ease-in;
+    --animate-accordion-down: accordion-down 200ms ease-out;
+    --animate-accordion-up: accordion-up 200ms ease-out;
+    --animate-collapsible-down: collapsible-down 200ms ease-out;
+    --animate-collapsible-up: collapsible-up 200ms ease-out;
+
+    @keyframes slide-in-right {
+        from {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes slide-out-right {
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes slide-in-bottom {
+        from {
+            transform: translateY(100%);
+        }
+    }
+
+    @keyframes slide-out-bottom {
+        to {
+            transform: translateY(100%);
+        }
+    }
+
+    /* Height animations driven by the CSS variables reka-ui sets on the content element */
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--reka-accordion-content-height);
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--reka-accordion-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
+
+    @keyframes collapsible-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--reka-collapsible-content-height);
+        }
+    }
+
+    @keyframes collapsible-up {
+        from {
+            height: var(--reka-collapsible-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
+
+    @keyframes pop-in {
+        from {
+            opacity: 0;
+            transform: scale(0.96);
+        }
+    }
+
+    @keyframes pop-out {
+        to {
+            opacity: 0;
+            transform: scale(0.96);
+        }
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+    }
+
+    @keyframes fade-out {
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes slide-in-left {
+        from {
+            transform: translateX(-100%);
+        }
+    }
+
+    @keyframes slide-out-left {
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    /* Surfaces & text */
+    --color-canvas: #f3f3f0;
+    --color-sidebar: #f8f8f6;
+    --color-surface: #ffffff;
+    --color-line: #e5e4df;
+    --color-ink: #171716;
+    --color-muted: #706f6a;
+
+    /* Brand */
+    --color-brand: #17795a;
+    --color-brand-hover: #136349;
+    --color-brand-soft: #e2f3ee;
+    --color-brand-ink: #0f5c44;
+
+    /* Status */
+    --color-danger: #c03a26;
+    --color-danger-soft: #fbe3de;
+    --color-info: #2d5bb0;
+    --color-info-soft: #e1e9f6;
+    --color-warning: #8a6410;
+    --color-warning-soft: #f6ecd2;
+
+    /* Text selection (same in light & dark mode): dark green text on a light green highlight */
+    --color-selection: #c6ece0;
+    --color-selection-ink: #0f5c44;
+
+    /* Pastel tones for stat cards & avatars */
+    --color-tone-peach: #f8e3d4;
+    --color-tone-sky: #dfe4ec;
+    --color-tone-mint: #ddeee9;
+    --color-tone-cream: #f5ebd2;
+}
+
+@layer base {
+    ::selection {
+        background-color: var(--color-selection);
+        color: var(--color-selection-ink);
+    }
+
+    .dark {
+        color-scheme: dark;
+
+        --color-canvas: #0e0e0d;
+        --color-sidebar: #121211;
+        --color-surface: #191918;
+        --color-line: #2a2a27;
+        --color-ink: #ededeb;
+        --color-muted: #9d9c96;
+
+        --color-brand: #1b8261;
+        --color-brand-hover: #1e8f6a;
+        --color-brand-soft: #112c24;
+        --color-brand-ink: #88ddc2;
+
+        --color-danger: #f08672;
+        --color-danger-soft: #3a1c16;
+        --color-info: #8db0ee;
+        --color-info-soft: #1a2436;
+        --color-warning: #e2bd69;
+        --color-warning-soft: #322a16;
+
+        --color-tone-peach: #2e2119;
+        --color-tone-sky: #1d232d;
+        --color-tone-mint: #1a2824;
+        --color-tone-cream: #2a2516;
+    }
+}
