@@ -14,8 +14,6 @@ import Pagination from '@/components/ui/Pagination.vue';
 import Select from '@/components/ui/Select.vue';
 import StatCard from '@/components/ui/StatCard.vue';
 import Table from '@/components/ui/Table.vue';
-import NavTabs from '@/components/ui/NavTabs.vue';
-import NavTabsLink from '@/components/ui/NavTabsLink.vue';
 import { useNewLetterModal } from '@/composables/useNewLetterModal';
 
 defineOptions({
@@ -94,12 +92,7 @@ const statusActions = {
         <Button size="lg" icon="plus" @click="openNewLetterModal">Surat baru</Button>
     </div>
 
-    <NavTabs class="mt-8">
-        <NavTabsLink :href="route('dashboard')" active :count="totalLetters">Surat keluar</NavTabsLink>
-        <NavTabsLink>Surat masuk</NavTabsLink>
-    </NavTabs>
-
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard tone="peach" icon="clock" label="Menunggu balasan" :value="statusCounts.awaiting ?? 0" caption="surat belum dibalas" />
         <StatCard tone="sky" icon="triangle-alert" label="Terlambat" :value="statusCounts.overdue ?? 0" :caption="overdueRecipients || 'Tidak ada'" />
         <StatCard tone="mint" icon="arrow-down-left" label="Sudah dibalas" :value="statusCounts.sent ?? 0" caption="bulan ini" />

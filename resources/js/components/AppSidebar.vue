@@ -46,6 +46,7 @@ const isCurrentRoute = (name) => Boolean(page.url) && route().current(name);
 
 const mainNavigation = computed(() => [
     { label: 'Dashboard', href: route('dashboard'), icon: 'layout-grid', active: isCurrentRoute('dashboard') },
+    { label: 'Blank', href: route('blank'), icon: 'file', active: isCurrentRoute('blank') },
 ]);
 
 /** Children of "Components": the overview plus one link per reka-ui component (shared prop). */

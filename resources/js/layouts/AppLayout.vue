@@ -5,8 +5,7 @@
  */
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, VisuallyHidden } from 'reka-ui';
-import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
-import { route } from 'ziggy-js';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import NewLetterModal from '@/components/NewLetterModal.vue';
 import Alert from '@/components/ui/Alert.vue';
@@ -14,7 +13,6 @@ import Button from '@/components/ui/Button.vue';
 import DropdownMenu from '@/components/ui/DropdownMenu.vue';
 import DropdownMenuLabel from '@/components/ui/DropdownMenuLabel.vue';
 import Icon from '@/components/ui/Icon.vue';
-import Input from '@/components/ui/Input.vue';
 import Toaster from '@/components/ui/Toaster.vue';
 import { useSidebar } from '@/composables/useSidebar';
 
@@ -52,21 +50,6 @@ const today = new Intl.DateTimeFormat('id-ID', {
 
 const { isMobileOpen } = useSidebar();
 
-const globalSearch = ref('');
-const searchInput = useTemplateRef('searchInput');
-
-function submitSearch() {
-    router.get(route('dashboard', globalSearch.value ? { q: globalSearch.value } : {}));
-}
-
-function handleShortcut(event) {
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        searchInput.value?.focus();
-        searchInput.value?.select();
-    }
-}
-
 const desktopQuery = window.matchMedia('(min-width: 64rem)');
 const closeMobileSidebar = () => (isMobileOpen.value = false);
 let removeNavigateListener = null;
@@ -76,7 +59,6 @@ const isScrolled = ref(false);
 const updateScrolled = () => (isScrolled.value = window.scrollY > 0);
 
 onMounted(() => {
-    window.addEventListener('keydown', handleShortcut);
     window.addEventListener('scroll', updateScrolled, { passive: true });
     desktopQuery.addEventListener('change', closeMobileSidebar);
     removeNavigateListener = router.on('navigate', closeMobileSidebar);
@@ -84,7 +66,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleShortcut);
     window.removeEventListener('scroll', updateScrolled);
     desktopQuery.removeEventListener('change', closeMobileSidebar);
     removeNavigateListener?.();
@@ -156,18 +137,6 @@ onBeforeUnmount(() => {
                         </span>
                     </div>
                 </div>
-
-                <form role="search" class="hidden w-full max-w-xs md:block xl:max-w-md" @submit.prevent="submitSearch">
-                    <Input
-                        ref="searchInput"
-                        v-model="globalSearch"
-                        type="search"
-                        icon="search"
-                        kbd="⌘K"
-                        placeholder="Cari surat, penerima, perihal…"
-                        aria-label="Cari"
-                    />
-                </form>
 
                 <DropdownMenu width="w-80">
                     <template #trigger>

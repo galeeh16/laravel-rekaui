@@ -18,6 +18,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::inertia('/blank', 'Blank')->name('blank');
     Route::post('/letters', [LetterController::class, 'store'])->name('letters.store');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
