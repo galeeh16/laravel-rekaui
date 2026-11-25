@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import AspectRatio from '@/components/ui/AspectRatio.vue';
 import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const ratioOptions = [
     { label: '1 : 1', value: 1 },

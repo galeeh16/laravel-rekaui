@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Button from '@/components/ui/Button.vue';
 import TagGroup from '@/components/ui/TagGroup.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const categories = ['Undangan', 'Keuangan', 'Kepegawaian', 'Pengadaan', 'Hukum', 'Umum'];
 const selectedCategories = ref(['Undangan', 'Keuangan']);

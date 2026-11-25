@@ -5,10 +5,6 @@ import { route } from 'ziggy-js';
 import Icon from '@/components/ui/Icon.vue';
 import Input from '@/components/ui/Input.vue';
 
-defineOptions({
-    layout: { breadcrumbs: [{ label: 'Components' }] },
-});
-
 const props = defineProps({
     /** @type {Array<{ slug: string, label: string, description: string, route: string }>} */
     components: { type: Array, required: true },

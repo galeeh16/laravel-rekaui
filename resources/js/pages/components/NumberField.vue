@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import NumberField from '@/components/ui/NumberField.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const copies = ref(2);
 const stampFee = ref(10000);

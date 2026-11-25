@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Select from '@/components/ui/Select.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const status = ref('draft');
 

@@ -1,9 +1,8 @@
 <script setup>
 /**
  * Persistent dashboard layout (set as the default in `app.js`).
- * Pages pass layout props with `defineOptions({ layout: { breadcrumbs: [...] } })`.
  */
-import { Link, router, usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, VisuallyHidden } from 'reka-ui';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import AppSidebar from '@/components/AppSidebar.vue';
@@ -15,11 +14,7 @@ import DropdownMenuLabel from '@/components/ui/DropdownMenuLabel.vue';
 import Icon from '@/components/ui/Icon.vue';
 import Toaster from '@/components/ui/Toaster.vue';
 import { useSidebar } from '@/composables/useSidebar';
-
-defineProps({
-    /** @type {Array<{ label: string, href?: string }>} */
-    breadcrumbs: { type: Array, default: () => [] },
-});
+import { toast } from '@/composables/useToast';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -54,6 +49,18 @@ const desktopQuery = window.matchMedia('(min-width: 64rem)');
 const closeMobileSidebar = () => (isMobileOpen.value = false);
 let removeNavigateListener = null;
 
+/**
+ * Server-side toasts: `Inertia::flash('toast', ['title' => ..., 'description' => ..., 'variant' => 'success'])`.
+ */
+let removeFlashListener = null;
+const showFlashToast = (event) => {
+    const flashToast = event.detail.flash.toast;
+
+    if (flashToast?.title) {
+        toast(flashToast);
+    }
+};
+
 /** True once the page is scrolled, so the sticky header shows a border and shadow. */
 const isScrolled = ref(false);
 const updateScrolled = () => (isScrolled.value = window.scrollY > 0);
@@ -62,6 +69,7 @@ onMounted(() => {
     window.addEventListener('scroll', updateScrolled, { passive: true });
     desktopQuery.addEventListener('change', closeMobileSidebar);
     removeNavigateListener = router.on('navigate', closeMobileSidebar);
+    removeFlashListener = router.on('flash', showFlashToast);
     updateScrolled();
 });
 
@@ -69,6 +77,7 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', updateScrolled);
     desktopQuery.removeEventListener('change', closeMobileSidebar);
     removeNavigateListener?.();
+    removeFlashListener?.();
 });
 </script>
 
@@ -123,18 +132,7 @@ onBeforeUnmount(() => {
                     <div class="mt-0.5 flex items-center gap-1.5 text-sm text-muted">
                         <span class="size-2 shrink-0 rounded-full bg-brand ring-3 ring-brand/20" aria-hidden="true" />
 
-                        <span class="truncate">
-                            <span class="hidden sm:inline">{{ today }}</span>
-
-                            <template v-for="(crumb, index) in breadcrumbs" :key="crumb.label">
-                                <span :class="['mx-1 text-muted/70', { 'hidden sm:inline': index === 0 }]" aria-hidden="true">
-                                    {{ index === 0 ? '·' : '›' }}
-                                </span>
-
-                                <Link v-if="crumb.href" :href="crumb.href" class="hover:text-ink">{{ crumb.label }}</Link>
-                                <span v-else class="text-ink/80">{{ crumb.label }}</span>
-                            </template>
-                        </span>
+                        <span class="truncate">{{ today }}</span>
                     </div>
                 </div>
 

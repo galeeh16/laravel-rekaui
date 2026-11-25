@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Button from '@/components/ui/Button.vue';
 import Collapsible from '@/components/ui/Collapsible.vue';
 import Icon from '@/components/ui/Icon.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const dispositions = [
     { from: 'Rektor', to: 'Wakil Rektor II', note: 'Mohon ditindaklanjuti dan dikoordinasikan.', time: '20 Nov 2026, 09.12' },

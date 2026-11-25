@@ -10,9 +10,6 @@ import DropdownMenu from '@/components/ui/DropdownMenu.vue';
 import DropdownMenuItem from '@/components/ui/DropdownMenuItem.vue';
 import DropdownMenuLabel from '@/components/ui/DropdownMenuLabel.vue';
 import DropdownMenuSeparator from '@/components/ui/DropdownMenuSeparator.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /* Example 1: row actions */
 const lastAction = ref(null);

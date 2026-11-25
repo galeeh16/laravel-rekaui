@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Rating from '@/components/ui/Rating.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const serviceScore = ref(4);
 const draftScore = ref(3.5);

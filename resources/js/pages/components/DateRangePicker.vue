@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import DateRangePicker from '@/components/ui/DateRangePicker.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const leave = ref({ start: '2026-12-21', end: '2026-12-23' });
 const reportPeriod = ref({ start: '', end: '' });

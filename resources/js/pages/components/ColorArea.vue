@@ -9,9 +9,6 @@ import ColorArea from '@/components/ui/ColorArea.vue';
 import ColorField from '@/components/ui/ColorField.vue';
 import ColorSlider from '@/components/ui/ColorSlider.vue';
 import ColorSwatch from '@/components/ui/ColorSwatch.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const BRAND_COLOR = '#17795a';
 

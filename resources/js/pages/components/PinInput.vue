@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Button from '@/components/ui/Button.vue';
 import PinInput from '@/components/ui/PinInput.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const verificationCode = ref('');
 const completedCode = ref(null);

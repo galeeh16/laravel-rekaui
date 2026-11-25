@@ -10,9 +10,6 @@ import Field from '@/components/ui/Field.vue';
 import FieldControl from '@/components/ui/FieldControl.vue';
 import Form from '@/components/ui/Form.vue';
 import Select from '@/components/ui/Select.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const letter = ref({ number: '', subject: '', recipientEmail: '', urgency: undefined, attachmentChecked: false });
 const submittedValues = ref(null);

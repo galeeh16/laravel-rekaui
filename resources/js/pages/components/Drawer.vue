@@ -8,9 +8,6 @@ import Badge from '@/components/ui/Badge.vue';
 import Button from '@/components/ui/Button.vue';
 import Drawer from '@/components/ui/Drawer.vue';
 import Select from '@/components/ui/Select.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /* Example 1: bottom sheet with a trigger slot */
 const recipients = [

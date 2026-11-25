@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import RadioGroup from '@/components/ui/RadioGroup.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const urgency = ref('biasa');
 

@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Editable from '@/components/ui/Editable.vue';
 import Icon from '@/components/ui/Icon.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const subject = ref('Undangan rapat koordinasi bulanan');
 const lastSaved = ref(null);

@@ -47,6 +47,28 @@ const isCurrentRoute = (name) => Boolean(page.url) && route().current(name);
 const mainNavigation = computed(() => [
     { label: 'Dashboard', href: route('dashboard'), icon: 'layout-grid', active: isCurrentRoute('dashboard') },
     { label: 'Blank', href: route('blank'), icon: 'file', active: isCurrentRoute('blank') },
+    { label: 'Editor dokumen', href: route('editor'), icon: 'file-text', active: isCurrentRoute('editor') },
+    { label: 'Letters Template', href: route('letters-templates.index'), icon: 'file', active: isCurrentRoute('letters-templates.index') },
+]);
+
+/** Children of "Dokumen": the template list (also active while filling one in) and the upload page. */
+const documentLinks = computed(() => [
+    {
+        label: 'List Dokumen',
+        href: route('document-templates.index'),
+        active: isCurrentRoute('document-templates.index') || isCurrentRoute('document-templates.show'),
+    },
+    { label: 'Create Dokumen', href: route('document-templates.create'), active: isCurrentRoute('document-templates.create') },
+]);
+
+/** Children of "Penduduk": the list (also active while editing someone) and the create page. */
+const residentLinks = computed(() => [
+    {
+        label: 'List Penduduk',
+        href: route('penduduk.index'),
+        active: isCurrentRoute('penduduk.index') || isCurrentRoute('penduduk.edit'),
+    },
+    { label: 'Create Penduduk', href: route('penduduk.create'), active: isCurrentRoute('penduduk.create') },
 ]);
 
 /** Children of "Components": the overview plus one link per reka-ui component (shared prop). */
@@ -90,9 +112,11 @@ const componentLinks = computed(() => [
             />
         </div>
 
-        <nav class="-mx-1 mt-6 flex flex-1 flex-col gap-6 overflow-y-auto px-1" aria-label="Menu utama">
+        <nav class="-mx-1 mt-6 flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-1" aria-label="Menu utama">
             <NavGroup heading="Utama">
                 <NavItem v-for="item in mainNavigation" :key="item.label" v-bind="item" />
+                <NavCollapsible label="Dokumen" icon="folder-open" :children="documentLinks" />
+                <NavCollapsible label="Penduduk" icon="users" :children="residentLinks" />
             </NavGroup>
 
             <NavGroup heading="Dokumentasi">

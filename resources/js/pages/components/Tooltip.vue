@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Button from '@/components/ui/Button.vue';
 import Switch from '@/components/ui/Switch.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const letterActions = [
     { label: 'Lihat surat', icon: 'eye' },

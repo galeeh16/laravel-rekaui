@@ -7,9 +7,6 @@ import Avatar from '@/components/ui/Avatar.vue';
 import Badge from '@/components/ui/Badge.vue';
 import HoverCard from '@/components/ui/HoverCard.vue';
 import Icon from '@/components/ui/Icon.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const contacts = [
     { name: 'Rina Kartika', role: 'Sekretaris', company: 'PT Sinar Mandiri', email: 'rina@sinarmandiri.co.id', letters: 4 },

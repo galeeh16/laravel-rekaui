@@ -16,12 +16,6 @@ import StatCard from '@/components/ui/StatCard.vue';
 import Table from '@/components/ui/Table.vue';
 import { useNewLetterModal } from '@/composables/useNewLetterModal';
 
-defineOptions({
-    layout: {
-        breadcrumbs: [{ label: 'Dashboard', href: route('dashboard') }, { label: 'Surat keluar' }],
-    },
-});
-
 const props = defineProps({
     letters: { type: Object, required: true },
     statuses: { type: Object, required: true },

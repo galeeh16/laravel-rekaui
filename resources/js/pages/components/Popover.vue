@@ -7,9 +7,6 @@ import Button from '@/components/ui/Button.vue';
 import Input from '@/components/ui/Input.vue';
 import Popover from '@/components/ui/Popover.vue';
 import Switch from '@/components/ui/Switch.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /* Example 1: share settings with reactive switches */
 const shareSettings = ref({ allowComments: true, notifyRecipient: false });
@@ -131,7 +128,7 @@ const reminderDays = ref('3');
                         <form class="flex flex-col gap-3" @submit.prevent="saveReminder(close)">
                             <Input v-model="reminderDays" type="number" min="1" max="30" label="Hari sebelum tenggat" />
                             <div class="flex justify-end gap-2">
-                                <Button variant="ghost" size="sm" @click="close">Batal</Button>
+                                <Button variant="secondary" size="sm" @click="close">Batal</Button>
                                 <Button type="submit" size="sm">Simpan</Button>
                             </div>
                         </form>

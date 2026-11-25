@@ -3,9 +3,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import ColorSwatch from '@/components/ui/ColorSwatch.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const sizes = ['sm', 'md', 'lg'];
 

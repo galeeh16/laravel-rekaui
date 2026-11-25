@@ -54,6 +54,11 @@ function pageUrl(newPage) {
 }
 
 function changePage(newPage) {
+    /* The active page is not a link: re-selecting it (click or keyboard) does nothing. */
+    if (newPage === currentPage.value) {
+        return;
+    }
+
     if (props.paginator) {
         router.get(pageUrl(newPage), {}, { preserveScroll: true });
 
@@ -66,7 +71,6 @@ function changePage(newPage) {
 
 <template>
     <PaginationRoot
-        v-if="lastPage > 1"
         :page="currentPage"
         :total="totalItems"
         :items-per-page="perPage"
@@ -89,7 +93,7 @@ function changePage(newPage) {
                     v-if="item.type === 'page'"
                     :value="item.value"
                     :aria-label="`Halaman ${item.value}`"
-                    class="hidden size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium text-ink tabular-nums transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand data-selected:bg-brand data-selected:text-white data-selected:shadow-sm data-selected:shadow-brand/25 data-selected:hover:bg-brand-hover sm:inline-flex"
+                    class="hidden size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium text-ink tabular-nums transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand data-selected:pointer-events-none data-selected:cursor-default data-selected:bg-brand data-selected:text-white data-selected:shadow-sm data-selected:shadow-brand/25 sm:inline-flex"
                 >
                     {{ item.value }}
                 </PaginationListItem>

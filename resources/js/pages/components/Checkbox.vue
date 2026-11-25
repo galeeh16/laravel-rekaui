@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Checkbox from '@/components/ui/Checkbox.vue';
 import CheckboxGroup from '@/components/ui/CheckboxGroup.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const isImportant = ref(true);
 const sendCopy = ref(false);

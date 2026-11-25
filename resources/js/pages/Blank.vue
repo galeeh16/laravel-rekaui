@@ -1,12 +1,5 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { route } from 'ziggy-js';
-
-defineOptions({
-    layout: {
-        breadcrumbs: [{ label: 'Dashboard', href: route('dashboard') }, { label: 'Blank' }],
-    },
-});
 </script>
 
 <template>

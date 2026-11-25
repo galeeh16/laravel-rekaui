@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import YearRangePicker from '@/components/ui/YearRangePicker.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const archiveYears = ref({ start: '2021', end: '2025' });
 const retentionYears = ref({ start: '', end: '' });

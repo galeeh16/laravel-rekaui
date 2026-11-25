@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Field from '@/components/ui/Field.vue';
 import FieldControl from '@/components/ui/FieldControl.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const email = ref('');
 const summary = ref('');

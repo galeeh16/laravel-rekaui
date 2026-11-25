@@ -7,9 +7,6 @@ import Toolbar from '@/components/ui/Toolbar.vue';
 import ToolbarButton from '@/components/ui/ToolbarButton.vue';
 import ToolbarSeparator from '@/components/ui/ToolbarSeparator.vue';
 import ToolbarToggleGroup from '@/components/ui/ToolbarToggleGroup.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const formatOptions = [
     { value: 'bold', label: 'Tebal', icon: 'bold' },

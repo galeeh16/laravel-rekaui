@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Icon from '@/components/ui/Icon.vue';
 import Input from '@/components/ui/Input.vue';
 import ScrollArea from '@/components/ui/ScrollArea.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const activityTemplates = [
     { action: 'Surat diterima', actor: 'Sekretariat' },

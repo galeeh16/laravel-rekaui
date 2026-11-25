@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Badge from '@/components/ui/Badge.vue';
 import ContextMenu from '@/components/ui/ContextMenu.vue';
 import Icon from '@/components/ui/Icon.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /* Example 1: simple area */
 const lastAction = ref(null);

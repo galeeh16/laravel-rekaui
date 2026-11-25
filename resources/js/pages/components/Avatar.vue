@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Avatar from '@/components/ui/Avatar.vue';
 import AvatarGroup from '@/components/ui/AvatarGroup.vue';
 import Button from '@/components/ui/Button.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /** Inline SVG "photo" so the demo needs no external image host. */
 function portrait({ background, skin, hair, shirt }) {

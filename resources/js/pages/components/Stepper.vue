@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Alert from '@/components/ui/Alert.vue';
 import Button from '@/components/ui/Button.vue';
 import Stepper from '@/components/ui/Stepper.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const composeSteps = [
     { title: 'Data surat', description: 'Nomor & perihal', hint: 'Isi nomor surat, perihal, sifat, dan tujuan surat.' },

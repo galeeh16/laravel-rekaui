@@ -8,9 +8,6 @@ import Button from '@/components/ui/Button.vue';
 import Switch from '@/components/ui/Switch.vue';
 import Toaster from '@/components/ui/Toaster.vue';
 import { useToast } from '@/composables/useToast';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const { toast, promise } = useToast();
 

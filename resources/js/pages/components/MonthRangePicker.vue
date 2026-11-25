@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import MonthRangePicker from '@/components/ui/MonthRangePicker.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const quarter = ref({ start: '2026-07', end: '2026-09' });
 const budgetPeriod = ref({ start: '', end: '' });

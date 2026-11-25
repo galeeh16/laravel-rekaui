@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import ColorSlider from '@/components/ui/ColorSlider.vue';
 import ColorSwatch from '@/components/ui/ColorSwatch.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const hueColor = ref('#17795a');
 const hslColor = ref('#17795a');

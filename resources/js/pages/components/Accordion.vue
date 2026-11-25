@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import Accordion from '@/components/ui/Accordion.vue';
 import AccordionItem from '@/components/ui/AccordionItem.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const faqs = [
     { value: 'item-1', title: 'Apa itu reka-ui?', answer: 'Library komponen Vue tanpa gaya bawaan (headless) yang sudah menangani aksesibilitas dan keyboard.' },

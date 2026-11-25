@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import TagsInput from '@/components/ui/TagsInput.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const carbonCopies = ref(['Sekretariat', 'Bagian Keuangan']);
 const keywords = ref(['anggaran', 'rapat koordinasi']);

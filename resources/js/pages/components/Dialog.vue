@@ -8,9 +8,6 @@ import Button from '@/components/ui/Button.vue';
 import Modal from '@/components/ui/Modal.vue';
 import Select from '@/components/ui/Select.vue';
 import Textarea from '@/components/ui/Textarea.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const letterDetails = [
     { label: 'Nomor', value: '012/SK/XI/2026' },

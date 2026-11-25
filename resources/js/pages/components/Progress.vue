@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Button from '@/components/ui/Button.vue';
 import Progress from '@/components/ui/Progress.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const uploadProgress = ref(0);
 let uploadTimer = null;

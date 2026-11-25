@@ -5,9 +5,6 @@ import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import ColorField from '@/components/ui/ColorField.vue';
 import ColorSwatch from '@/components/ui/ColorSwatch.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const hexColor = ref('#17795a');
 const rgbColor = ref('#17795a');

@@ -5,9 +5,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Button from '@/components/ui/Button.vue';
 import Separator from '@/components/ui/Separator.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const letterGroups = [
     {

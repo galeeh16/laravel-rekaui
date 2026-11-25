@@ -4,9 +4,6 @@ import DocExample from '@/components/docs/DocExample.vue';
 import DocPage from '@/components/docs/DocPage.vue';
 import DocProps from '@/components/docs/DocProps.vue';
 import TimeRangeField from '@/components/ui/TimeRangeField.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const meetingTime = ref({ start: '09:00', end: '10:30' });
 const serviceHours = ref({ start: '08:00', end: '15:00' });

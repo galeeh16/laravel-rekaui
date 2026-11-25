@@ -8,9 +8,6 @@ import Icon from '@/components/ui/Icon.vue';
 import Splitter from '@/components/ui/Splitter.vue';
 import SplitterHandle from '@/components/ui/SplitterHandle.vue';
 import SplitterPanel from '@/components/ui/SplitterPanel.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 const letters = [
     { subject: 'Undangan Rapat Koordinasi', sender: 'Dinas Pendidikan', time: '09.12' },

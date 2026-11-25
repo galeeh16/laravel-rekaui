@@ -6,9 +6,6 @@ import DocProps from '@/components/docs/DocProps.vue';
 import AlertDialog from '@/components/ui/AlertDialog.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Button from '@/components/ui/Button.vue';
-import { componentLayout } from '@/lib/docs';
-
-defineOptions({ layout: componentLayout });
 
 /* Example 1: trigger slot */
 const lastAction = ref(null);
