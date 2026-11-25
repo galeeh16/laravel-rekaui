@@ -44,7 +44,7 @@ const isLoading = computed(() => props.toast.status === 'loading');
 
         <div class="flex min-w-0 flex-1 flex-col gap-0.5">
             <ToastTitle class="text-sm font-semibold" />
-            <ToastDescription class="text-sm text-ink/75" />
+            <ToastDescription class="text-sm text-ink" />
 
             <ToastAction v-if="toast.actionProps" as-child>
                 <Button variant="secondary" size="sm" class="mt-2 self-start">{{ toast.actionProps.label }}</Button>

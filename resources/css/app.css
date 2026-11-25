@@ -149,10 +149,10 @@
     --color-selection-ink: #0f5c44;
 
     /* Pastel tones for stat cards & avatars */
-    --color-tone-peach: #f8e3d4;
-    --color-tone-sky: #dfe4ec;
-    --color-tone-mint: #ddeee9;
-    --color-tone-cream: #f5ebd2;
+    --color-tone-peach: #f7d8c2;
+    --color-tone-sky: #d5e0f1;
+    --color-tone-mint: #cde9de;
+    --color-tone-cream: #f4e4bd;
 }
 
 @layer base {
@@ -183,10 +183,10 @@
         --color-warning: #e2bd69;
         --color-warning-soft: #322a16;
 
-        --color-tone-peach: #2e2119;
-        --color-tone-sky: #1d232d;
-        --color-tone-mint: #1a2824;
-        --color-tone-cream: #2a2516;
+        --color-tone-peach: #36241a;
+        --color-tone-sky: #1c2535;
+        --color-tone-mint: #172c25;
+        --color-tone-cream: #312914;
     }
 }
 

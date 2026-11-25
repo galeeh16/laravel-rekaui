@@ -23,13 +23,13 @@ const toneClasses = {
 
 <template>
     <div :class="['flex flex-col rounded-2xl p-5', toneClasses[tone]]">
-        <div class="flex items-center gap-2 text-sm text-ink/75">
+        <div class="flex items-center gap-2 text-sm text-ink">
             <Icon v-if="icon" :name="icon" class="size-4.5" />
             {{ label }}
         </div>
 
         <div class="mt-3 text-3xl font-medium tracking-tight tabular-nums">{{ value }}</div>
 
-        <div v-if="caption" class="mt-auto truncate pt-6 text-sm text-ink/75">{{ caption }}</div>
+        <div v-if="caption" class="mt-auto truncate pt-6 text-sm text-ink">{{ caption }}</div>
     </div>
 </template>

@@ -47,7 +47,7 @@ const accessibleLabel = computed(() => {
         <span
             v-if="hiddenCount"
             :class="[
-                'inline-flex shrink-0 items-center justify-center rounded-full bg-canvas font-semibold text-ink/75 ring-2 ring-surface',
+                'inline-flex shrink-0 items-center justify-center rounded-full bg-canvas font-semibold text-ink ring-2 ring-surface',
                 sizeClasses[size],
             ]"
             aria-hidden="true"

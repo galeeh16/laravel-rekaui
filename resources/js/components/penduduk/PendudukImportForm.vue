@@ -148,7 +148,7 @@ function downloadTemplate() {
                     :key="column"
                     :class="[
                         'rounded-md px-2 py-1 text-xs font-medium',
-                        REQUIRED_VALUE_COLUMNS.includes(column) ? 'bg-brand-soft text-brand-ink' : 'bg-ink/6 text-ink/75',
+                        REQUIRED_VALUE_COLUMNS.includes(column) ? 'bg-brand-soft text-brand-ink' : 'bg-ink/6 text-ink',
                     ]"
                 >
                     {{ column }}<span v-if="REQUIRED_VALUE_COLUMNS.includes(column)" aria-label="isi wajib">*</span>

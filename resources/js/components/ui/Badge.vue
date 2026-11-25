@@ -9,7 +9,7 @@ defineProps({
 });
 
 const variantClasses = {
-    neutral: 'bg-ink/6 text-ink/75',
+    neutral: 'bg-ink/6 text-ink',
     success: 'bg-brand-soft text-brand-ink',
     danger: 'bg-danger-soft text-danger',
     info: 'bg-info-soft text-info',
