@@ -19,6 +19,8 @@ const props = defineProps({
     label: { type: String, default: 'NIK' },
     hint: { type: String, default: null },
     error: { type: String, default: null },
+    /** Shown when a full 16-digit NIK matches no resident. */
+    notFoundHint: { type: String, default: 'NIK tidak ditemukan di data penduduk. Isi kolom lain secara manual.' },
 });
 
 const emit = defineEmits(['select']);
@@ -43,7 +45,7 @@ const isNotFound = computed(
     () => !isSearching.value && digits.value.length === NIK_LENGTH && searchedDigits.value === digits.value && results.value.length === 0,
 );
 
-const hintText = computed(() => (isNotFound.value ? 'NIK tidak ditemukan di data penduduk. Isi kolom lain secara manual.' : props.hint));
+const hintText = computed(() => (isNotFound.value ? props.notFoundHint : props.hint));
 
 /** Emit `select` once for a resident whose NIK is exactly what was typed. */
 function selectExactMatch() {

@@ -90,6 +90,7 @@ for (const field of Object.keys(props.form.data())) {
                     placeholder="Pilih agama"
                     hint="Opsional"
                     :options="options.religions"
+                    clearable
                     :error="form.errors.agama"
                 />
 
@@ -100,6 +101,7 @@ for (const field of Object.keys(props.form.data())) {
                     placeholder="Pilih status"
                     hint="Opsional"
                     :options="options.maritalStatuses"
+                    clearable
                     :error="form.errors.status_perkawinan"
                 />
 

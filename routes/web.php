@@ -4,6 +4,7 @@ use App\Enums\UiComponent;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentApplicationController;
 use App\Http\Controllers\DocumentTemplateController;
 use App\Http\Controllers\LetterController;
 use App\Http\Controllers\PendudukController;
@@ -25,8 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/letters', [LetterController::class, 'store'])->name('letters.store');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
-    Route::get('/letters-templates', [LetterController::class, 'storeTemplate'])->name('letters-templates.index');
-
     /*
      * Word templates with ${variable} placeholders: upload, fill in, download.
      */
@@ -38,9 +37,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/{documentTemplate}', [DocumentTemplateController::class, 'show'])->name('show');
         Route::get('/{documentTemplate}/download', [DocumentTemplateController::class, 'download'])->name('download');
         Route::post('/{documentTemplate}/generate', [DocumentTemplateController::class, 'generate'])->name('generate');
-        Route::post('/{documentTemplate}/print', [DocumentTemplateController::class, 'printable'])->name('print');
         Route::patch('/{documentTemplate}', [DocumentTemplateController::class, 'update'])->name('update');
         Route::delete('/{documentTemplate}', [DocumentTemplateController::class, 'destroy'])->name('destroy');
+    });
+
+    /*
+     * Residents' applications for documents, kept as a history.
+     */
+    Route::prefix('document-applications')->name('document-applications.')->group(function () {
+        Route::get('/', [DocumentApplicationController::class, 'index'])->name('index');
+        Route::get('/create', [DocumentApplicationController::class, 'create'])->name('create');
+        Route::post('/', [DocumentApplicationController::class, 'store'])->name('store');
     });
 
     Route::get('/penduduk/search', [PendudukController::class, 'search'])->name('penduduk.search');

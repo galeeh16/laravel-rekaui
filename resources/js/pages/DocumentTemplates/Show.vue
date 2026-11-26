@@ -1,6 +1,6 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
-import { computed, reactive, ref } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 import NikLookupInput from '@/components/penduduk/NikLookupInput.vue';
 import AlertDialog from '@/components/ui/AlertDialog.vue';
@@ -15,6 +15,7 @@ const props = defineProps({
     template: { type: Object, required: true },
 });
 
+const page = usePage();
 const values = reactive(Object.fromEntries(props.template.fields.map((field) => [field.name, ''])));
 const errors = ref({});
 const isGenerating = ref(false);
@@ -36,6 +37,18 @@ const nikValue = computed({
             searchOnlyNik.value = value;
         }
     },
+});
+
+/**
+ * Opened from an application (`?nik=…`): put the applicant's NIK in the search box once mounted,
+ * so the lookup runs and fills in their data.
+ */
+onMounted(() => {
+    const requestedNik = new URL(page.url, window.location.origin).searchParams.get('nik');
+
+    if (requestedNik) {
+        nikValue.value = requestedNik;
+    }
 });
 
 /** `{ nama, count }` of the resident whose data was filled in last. */
@@ -225,7 +238,7 @@ function destroyTemplate() {
                 <Button type="submit" icon="download" :disabled="isGenerating">
                     {{ isGenerating ? 'Membuat dokumen…' : 'Buat & unduh dokumen' }}
                 </Button>
-                <Button variant="ghost" :disabled="isGenerating" @click="resetValues">Kosongkan isian</Button>
+                <Button variant="secondary" :disabled="isGenerating" @click="resetValues">Kosongkan isian</Button>
             </div>
         </form>
     </Card>

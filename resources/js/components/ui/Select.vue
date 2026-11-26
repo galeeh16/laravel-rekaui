@@ -5,6 +5,7 @@
  *
  * Usage: <Select v-model="status" label="Status" :options="[{ value: 'draft', label: 'Draf' }]" placeholder="Pilih status" />
  *        <Select v-model="perPage" size="sm" :options="[5, 10, 25]" />
+ *        <Select v-model="form.agama" :options="religions" clearable />   (× button resets the value to null)
  *
  * Options are `{ value, label, disabled? }` or plain values. Group them under a heading with
  * `{ label: 'Internal', options: [...] }`; groups and plain options can be mixed.
@@ -45,6 +46,8 @@ const props = defineProps({
     required: { type: Boolean, default: false },
     error: { type: String, default: null },
     hint: { type: String, default: null },
+    /** Show a × button that empties the selection (sets the value to null). */
+    clearable: { type: Boolean, default: false },
 });
 
 const attrs = useAttrs();
@@ -74,6 +77,16 @@ const groups = computed(() =>
     }, []),
 );
 
+const showClearButton = computed(
+    () => props.clearable && !props.disabled && model.value !== null && model.value !== undefined && model.value !== '',
+);
+
+/** Empty the selection and give focus back to the trigger, since the × button disappears. */
+function clearSelection() {
+    model.value = null;
+    document.getElementById(selectId.value)?.focus();
+}
+
 function triggerAttrs() {
     const { class: _class, ...rest } = attrs;
 
@@ -86,22 +99,42 @@ function triggerAttrs() {
         <Label v-if="label" :for="selectId" :required="required">{{ label }}</Label>
 
         <SelectRoot v-model="model" :name="name" :disabled="disabled" :required="required">
-            <SelectTrigger
-                :id="selectId"
-                v-bind="triggerAttrs()"
-                :aria-invalid="error ? 'true' : undefined"
-                :class="[
-                    'flex w-full cursor-pointer items-center justify-between gap-2 border bg-surface text-left text-sm text-ink shadow-xs outline-none transition',
-                    'focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-60 data-placeholder:text-muted/80',
-                    size === 'sm' ? 'h-8 rounded-lg pr-2 pl-2.5' : 'h-11 rounded-xl pr-3 pl-3.5',
-                    error
-                        ? 'border-danger focus-visible:border-danger focus-visible:ring-danger/15'
-                        : 'border-line focus-visible:border-brand focus-visible:ring-brand/15 data-invalid:border-danger data-invalid:focus-visible:border-danger data-invalid:focus-visible:ring-danger/15',
-                ]"
-            >
-                <SelectValue :placeholder="placeholder" class="truncate" />
-                <Icon name="chevron-down" class="size-4 text-muted" />
-            </SelectTrigger>
+            <div class="relative">
+                <SelectTrigger
+                    :id="selectId"
+                    v-bind="triggerAttrs()"
+                    :aria-invalid="error ? 'true' : undefined"
+                    :class="[
+                        'flex w-full cursor-pointer items-center justify-between gap-2 border bg-surface text-left text-sm text-ink shadow-xs outline-none transition',
+                        'focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-60 data-placeholder:text-muted/80',
+                        size === 'sm' ? 'h-8 rounded-lg pr-2 pl-2.5' : 'h-11 rounded-xl pr-3 pl-3.5',
+                        error
+                            ? 'border-danger focus-visible:border-danger focus-visible:ring-danger/15'
+                            : 'border-line focus-visible:border-brand focus-visible:ring-brand/15 data-invalid:border-danger data-invalid:focus-visible:border-danger data-invalid:focus-visible:ring-danger/15',
+                    ]"
+                >
+                    <SelectValue :placeholder="placeholder" class="truncate" />
+                    <span class="flex shrink-0 items-center gap-1">
+                        <!-- Keeps room for the × button, which sits outside the trigger so it does not open the list. -->
+                        <span v-if="showClearButton" class="size-6" aria-hidden="true" />
+                        <Icon name="chevron-down" class="size-4 text-muted" />
+                    </span>
+                </SelectTrigger>
+
+                <button
+                    v-if="showClearButton"
+                    type="button"
+                    :aria-label="label ? `Kosongkan ${label.toLowerCase()}` : 'Kosongkan pilihan'"
+                    :class="[
+                        'absolute top-1/2 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted transition-colors',
+                        'hover:bg-ink/6 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand',
+                        size === 'sm' ? 'right-7' : 'right-8',
+                    ]"
+                    @click="clearSelection"
+                >
+                    <Icon name="x" class="size-3.5" />
+                </button>
+            </div>
 
             <SelectPortal>
                 <SelectContent

@@ -124,7 +124,7 @@ function inputAttrs() {
                             class="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2.5 py-2 text-sm outline-none select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-ink/5"
                         >
                             <span class="truncate">{{ suggestion.value }}</span>
-                            <span v-if="suggestion.hint" class="shrink-0 text-xs text-muted">{{ suggestion.hint }}</span>
+                            <span v-if="suggestion.hint" class="shrink-0 text-sm text-muted">{{ suggestion.hint }}</span>
                         </AutocompleteItem>
                     </AutocompleteViewport>
                 </AutocompleteContent>

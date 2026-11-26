@@ -48,7 +48,6 @@ const mainNavigation = computed(() => [
     { label: 'Dashboard', href: route('dashboard'), icon: 'layout-grid', active: isCurrentRoute('dashboard') },
     { label: 'Blank', href: route('blank'), icon: 'file', active: isCurrentRoute('blank') },
     { label: 'Editor dokumen', href: route('editor'), icon: 'file-text', active: isCurrentRoute('editor') },
-    { label: 'Letters Template', href: route('letters-templates.index'), icon: 'file', active: isCurrentRoute('letters-templates.index') },
 ]);
 
 /** Children of "Dokumen": the template list (also active while filling one in) and the upload page. */
@@ -59,6 +58,12 @@ const documentLinks = computed(() => [
         active: isCurrentRoute('document-templates.index') || isCurrentRoute('document-templates.show'),
     },
     { label: 'Create Dokumen', href: route('document-templates.create'), active: isCurrentRoute('document-templates.create') },
+]);
+
+/** Children of "Pengajuan Dokumen": the application history and the form for recording one. */
+const applicationLinks = computed(() => [
+    { label: 'List Pengajuan', href: route('document-applications.index'), active: isCurrentRoute('document-applications.index') },
+    { label: 'Buat Pengajuan', href: route('document-applications.create'), active: isCurrentRoute('document-applications.create') },
 ]);
 
 /** Children of "Penduduk": the list (also active while editing someone) and the create page. */
@@ -116,6 +121,7 @@ const componentLinks = computed(() => [
             <NavGroup heading="Utama">
                 <NavItem v-for="item in mainNavigation" :key="item.label" v-bind="item" />
                 <NavCollapsible label="Dokumen" icon="folder-open" :children="documentLinks" />
+                <NavCollapsible label="Pengajuan Dokumen" icon="inbox" :children="applicationLinks" />
                 <NavCollapsible label="Penduduk" icon="users" :children="residentLinks" />
             </NavGroup>
 
