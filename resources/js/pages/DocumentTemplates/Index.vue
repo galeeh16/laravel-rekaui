@@ -210,7 +210,7 @@ function destroyTemplate() {
             <td colspan="6" class="py-14 text-center">
                 <p class="text-muted">Belum ada template dokumen.</p>
                 <Button :href="route('document-templates.create')" variant="secondary" size="sm" icon="plus" class="mt-3">
-                    Create Dokumen
+                    Buat Template
                 </Button>
             </td>
         </tr>
