@@ -3,7 +3,7 @@
  * Sidebar content, shared by the desktop <aside> and the mobile drawer in `layouts/AppLayout.vue`.
  */
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, provide } from 'vue';
 import { route } from 'ziggy-js';
 import AppLogo from '@/components/AppLogo.vue';
 import NavCollapsible from '@/components/NavCollapsible.vue';
@@ -18,11 +18,13 @@ import DropdownMenuSeparator from '@/components/ui/DropdownMenuSeparator.vue';
 import Icon from '@/components/ui/Icon.vue';
 import Switch from '@/components/ui/Switch.vue';
 import { useAppearance } from '@/composables/useAppearance';
-import { useSidebar } from '@/composables/useSidebar';
+import { mobileSidebarKey, useSidebar } from '@/composables/useSidebar';
 
-defineProps({
+const props = defineProps({
     mobile: { type: Boolean, default: false },
 });
+
+provide(mobileSidebarKey, props.mobile);
 
 const emit = defineEmits(['close']);
 
@@ -53,11 +55,11 @@ const mainNavigation = computed(() => [
 /** Children of "Dokumen": the template list (also active while filling one in) and the upload page. */
 const documentLinks = computed(() => [
     {
-        label: 'List Dokumen',
+        label: 'List Template',
         href: route('document-templates.index'),
         active: isCurrentRoute('document-templates.index') || isCurrentRoute('document-templates.show'),
     },
-    { label: 'Create Dokumen', href: route('document-templates.create'), active: isCurrentRoute('document-templates.create') },
+    { label: 'Buat Template', href: route('document-templates.create'), active: isCurrentRoute('document-templates.create') },
 ]);
 
 /** Children of "Pengajuan Dokumen": the application history and the form for recording one. */
@@ -73,7 +75,7 @@ const residentLinks = computed(() => [
         href: route('penduduk.index'),
         active: isCurrentRoute('penduduk.index') || isCurrentRoute('penduduk.edit'),
     },
-    { label: 'Create Penduduk', href: route('penduduk.create'), active: isCurrentRoute('penduduk.create') },
+    { label: 'Tambah Penduduk', href: route('penduduk.create'), active: isCurrentRoute('penduduk.create') },
 ]);
 
 /** Children of "Components": the overview plus one link per reka-ui component (shared prop). */
@@ -120,7 +122,7 @@ const componentLinks = computed(() => [
         <nav class="-mx-1 mt-6 flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-1" aria-label="Menu utama">
             <NavGroup heading="Utama">
                 <NavItem v-for="item in mainNavigation" :key="item.label" v-bind="item" />
-                <NavCollapsible label="Dokumen" icon="folder-open" :children="documentLinks" />
+                <NavCollapsible label="Dokumen Template" icon="folder-open" :children="documentLinks" />
                 <NavCollapsible label="Pengajuan Dokumen" icon="inbox" :children="applicationLinks" />
                 <NavCollapsible label="Penduduk" icon="users" :children="residentLinks" />
             </NavGroup>

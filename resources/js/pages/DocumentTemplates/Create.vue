@@ -52,7 +52,7 @@ function downloadSample() {
 </script>
 
 <template>
-    <Head title="Create Dokumen" />
+    <Head title="Buat Template" />
 
     <div class="pt-6 lg:pt-10">
         <Link
@@ -60,10 +60,10 @@ function downloadSample() {
             class="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink"
         >
             <Icon name="arrow-left" class="size-4" />
-            List Dokumen
+            List Template
         </Link>
 
-        <h1 class="mt-3 text-4xl font-medium tracking-tight sm:text-5xl">Create Dokumen</h1>
+        <h1 class="mt-3 text-4xl font-medium tracking-tight sm:text-5xl">Buat Template</h1>
         <p class="mt-3 text-muted">Unggah template Word berisi variabel. Template yang diunggah akan tersimpan di List Dokumen.</p>
     </div>
 

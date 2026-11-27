@@ -10,6 +10,12 @@ const isCollapsed = ref(typeof document !== 'undefined' && document.documentElem
 /** Mobile drawer state. */
 const isMobileOpen = ref(false);
 
+/**
+ * Provided by `AppSidebar`: whether this copy of the sidebar is the mobile drawer, where the
+ * collapsed-sidebar tooltips must stay off (the drawer always shows the labels).
+ */
+export const mobileSidebarKey = Symbol('mobileSidebar');
+
 export function useSidebar() {
     function toggleCollapsed() {
         isCollapsed.value = !isCollapsed.value;

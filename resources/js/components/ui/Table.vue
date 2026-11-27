@@ -13,7 +13,7 @@
 -->
 <template>
     <div class="rounded-2xl border border-line bg-surface shadow-xs overflow-hidden">
-        <div class="overflow-x-auto">
+        <div class="scrollbar-brand overflow-x-auto">
             <table
                 class="w-full text-left text-sm [&_td]:px-5 [&_td]:py-4 [&_th]:px-5 [&_th]:py-3.5 [&_th]:font-normal [&_th]:whitespace-nowrap [&_th]:text-muted"
             >

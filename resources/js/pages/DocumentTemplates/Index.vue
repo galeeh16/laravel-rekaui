@@ -112,11 +112,11 @@ function destroyTemplate() {
 
     <div class="flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:justify-between lg:pt-10">
         <div>
-            <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Dokumen</h1>
+            <h1 class="text-3xl font-medium tracking-tight sm:text-4xl">List Template</h1>
             <p class="mt-3 text-muted">Template Word yang sudah diunggah. Pilih salah satu untuk mengisi dan mengunduh dokumennya.</p>
         </div>
 
-        <Button :href="route('document-templates.create')" size="lg" icon="plus">Create Dokumen</Button>
+        <Button :href="route('document-templates.create')" size="lg" icon="plus">Buat Template</Button>
     </div>
 
     <div class="mt-8 flex justify-end">

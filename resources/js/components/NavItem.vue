@@ -1,36 +1,61 @@
 <script setup>
 /**
  * Sidebar navigation link. Items without `href` render as a placeholder until the page exists.
+ * The link to the page that is already open renders as plain text, so it cannot be clicked again.
+ * In the collapsed desktop sidebar only the icon shows, so the label appears in a tooltip on hover or focus.
  * Usage: <NavItem label="Dashboard" :href="route('dashboard')" icon="layout-grid" :active="true" :count="2" />
  */
 import { Link } from '@inertiajs/vue3';
+import { computed, inject } from 'vue';
 import Count from '@/components/ui/Count.vue';
 import Icon from '@/components/ui/Icon.vue';
+import Tooltip from '@/components/ui/Tooltip.vue';
+import { useCurrentPage } from '@/composables/useCurrentPage';
+import { mobileSidebarKey, useSidebar } from '@/composables/useSidebar';
 
-defineProps({
+const props = defineProps({
     label: { type: String, required: true },
     href: { type: String, default: null },
     icon: { type: String, default: null },
     active: { type: Boolean, default: false },
     count: { type: Number, default: null },
 });
+
+const { isCurrentPage } = useCurrentPage();
+const { isCollapsed } = useSidebar();
+const isMobileSidebar = inject(mobileSidebarKey, false);
+
+const showsTooltip = computed(() => isCollapsed.value && !isMobileSidebar);
+const isOnThisPage = computed(() => isCurrentPage(props.href));
+
+/** Plain text on its own page, a placeholder `<a>` without `href`, otherwise an Inertia link. */
+const element = computed(() => {
+    if (isOnThisPage.value) {
+        return 'span';
+    }
+
+    return props.href ? Link : 'a';
+});
 </script>
 
 <template>
-    <component
-        :is="href ? Link : 'a'"
-        :href="href ?? '#'"
-        :title="label"
-        :aria-current="active ? 'page' : undefined"
-        :class="[
-            'flex h-11 items-center gap-3 rounded-xl px-3 text-[0.875rem] transition-colors lg:sidebar-collapsed:justify-center lg:sidebar-collapsed:px-0',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
-            active ? 'bg-brand-soft font-medium text-brand-ink' : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
-        ]"
-        @click="href ? undefined : $event.preventDefault()"
-    >
-        <Icon v-if="icon" :name="icon" :class="['size-5', active ? 'text-brand' : 'text-muted']" />
-        <span class="flex-1 truncate lg:sidebar-collapsed:hidden">{{ label }}</span>
-        <Count v-if="count !== null" variant="dark" class="lg:sidebar-collapsed:hidden">{{ count }}</Count>
-    </component>
+    <Tooltip :content="label" side="right" :delay-duration="100" :disabled="!showsTooltip">
+        <component
+            :is="element"
+            :href="isOnThisPage ? undefined : (href ?? '#')"
+            :aria-label="label"
+            :aria-current="active ? 'page' : undefined"
+            :class="[
+                'flex h-11 items-center gap-3 rounded-xl px-3 text-[0.875rem] transition-colors lg:sidebar-collapsed:justify-center lg:sidebar-collapsed:px-0',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+                active ? 'bg-brand-soft font-medium text-brand-ink' : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
+                { 'cursor-default': isOnThisPage },
+            ]"
+            @click="href ? undefined : $event.preventDefault()"
+        >
+            <Icon v-if="icon" :name="icon" :class="['size-5', active ? 'text-brand' : 'text-muted']" />
+            <span class="flex-1 truncate lg:sidebar-collapsed:hidden">{{ label }}</span>
+            <Count v-if="count !== null" variant="dark" class="lg:sidebar-collapsed:hidden">{{ count }}</Count>
+        </component>
+    </Tooltip>
 </template>

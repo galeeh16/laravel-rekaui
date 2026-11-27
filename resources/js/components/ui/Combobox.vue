@@ -5,6 +5,7 @@
  *
  * Usage: <Combobox v-model="form.unit" label="Unit tujuan" :options="units" placeholder="Cari unit…" />
  *        <Combobox v-model="form.cc" label="Tembusan" :options="employees" multiple />   (array v-model, shown as chips)
+ *        <Combobox v-model="form.unit" :options="units" clearable />   (× button empties it: null, or [] in multiple mode)
  *
  * Options are `{ value, label, hint?, disabled? }` or plain values; group them under a heading with
  * `{ label: 'Sekretariat', options: [...] }`. Typing also matches the `hint` (e.g. a position or NIP).
@@ -47,6 +48,8 @@ const props = defineProps({
     required: { type: Boolean, default: false },
     error: { type: String, default: null },
     hint: { type: String, default: null },
+    /** Show a × button that empties the selection (null, or [] in multiple mode). */
+    clearable: { type: Boolean, default: false },
 });
 
 const attrs = useAttrs();
@@ -98,6 +101,19 @@ function removeLastValue() {
     if (props.multiple && searchTerm.value === '' && selectedValues.value.length > 0) {
         model.value = selectedValues.value.slice(0, -1);
     }
+}
+
+const hasSelection = computed(() =>
+    props.multiple ? selectedValues.value.length > 0 : model.value !== null && model.value !== undefined && model.value !== '',
+);
+
+const showClearButton = computed(() => props.clearable && !props.disabled && hasSelection.value);
+
+/** Empty the selection and the search text, then focus the input since the × button disappears. */
+function clearSelection() {
+    model.value = props.multiple ? [] : null;
+    searchTerm.value = '';
+    document.getElementById(inputId.value)?.focus();
 }
 
 function inputAttrs() {
@@ -152,6 +168,16 @@ function inputAttrs() {
                     ]"
                     @keydown.backspace="removeLastValue"
                 />
+
+                <button
+                    v-if="showClearButton"
+                    type="button"
+                    :aria-label="label ? `Kosongkan ${label.toLowerCase()}` : 'Kosongkan pilihan'"
+                    class="-mr-1 inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted transition-colors hover:bg-ink/6 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+                    @click="clearSelection"
+                >
+                    <Icon name="x" class="size-3.5" />
+                </button>
 
                 <ComboboxTrigger
                     class="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors hover:bg-ink/5 hover:text-ink disabled:cursor-not-allowed"

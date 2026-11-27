@@ -110,6 +110,7 @@ function submit() {
                 name="document_template_id"
                 placeholder="Cari atau pilih dokumen"
                 empty-text="Tidak ada dokumen dengan nama ini."
+                clearable
                 :options="templates"
                 :error="form.errors.document_template_id"
             />

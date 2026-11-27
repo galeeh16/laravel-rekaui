@@ -38,7 +38,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Create Penduduk" />
+    <Head title="Tambah Penduduk" />
 
     <div class="pt-6 lg:pt-10">
         <Link :href="route('penduduk.index')" class="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink">
