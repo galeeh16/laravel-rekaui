@@ -28,6 +28,13 @@ const isMobileSidebar = inject(mobileSidebarKey, false);
 const showsTooltip = computed(() => isCollapsed.value && !isMobileSidebar);
 const isOnThisPage = computed(() => isCurrentPage(props.href));
 
+/**
+ * The layout persists across visits, so arriving on or leaving this page swaps the tooltip trigger between
+ * `<span>` and `<a>`. reka-ui keeps anchoring to the removed element (measured at 0,0), which puts the tooltip
+ * in the top-left corner instead of beside the icon. Changing the key remounts the tooltip on the new element.
+ */
+const tooltipKey = computed(() => (isOnThisPage.value ? 'current-page' : 'link'));
+
 /** Plain text on its own page, a placeholder `<a>` without `href`, otherwise an Inertia link. */
 const element = computed(() => {
     if (isOnThisPage.value) {
@@ -39,7 +46,7 @@ const element = computed(() => {
 </script>
 
 <template>
-    <Tooltip :content="label" side="right" :delay-duration="100" :disabled="!showsTooltip">
+    <Tooltip :key="tooltipKey" :content="label" side="right" :delay-duration="100" :disabled="!showsTooltip">
         <component
             :is="element"
             :href="isOnThisPage ? undefined : (href ?? '#')"

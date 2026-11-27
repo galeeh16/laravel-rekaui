@@ -21,6 +21,7 @@
         "@inertiajs/vite": "^3.11.0",
         "@inertiajs/vue3": "^3.11.0",
         "@internationalized/date": "^3.12.4",
+        "@lucide/vue": "~1.72.0",
         "@tiptap/extension-highlight": "^3.35.0",
         "@tiptap/extension-image": "^3.35.0",
         "@tiptap/extension-list": "^3.35.0",

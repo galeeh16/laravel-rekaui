@@ -47,20 +47,26 @@ const isNotFound = computed(
 
 const hintText = computed(() => (isNotFound.value ? props.notFoundHint : props.hint));
 
-/** Emit `select` once for a resident whose NIK is exactly what was typed. */
+/**
+ * Emit `select` once for a resident whose NIK is exactly what was typed.
+ *
+ * @returns {boolean} Whether the current results already hold that resident.
+ */
 function selectExactMatch() {
     const resident = results.value.find((candidate) => candidate.nik === digits.value);
 
     if (!resident) {
         selectedNik = null;
 
-        return;
+        return false;
     }
 
     if (selectedNik !== resident.nik) {
         selectedNik = resident.nik;
         emit('select', resident);
     }
+
+    return true;
 }
 
 async function search(searchDigits) {
@@ -107,8 +113,14 @@ watch(digits, (value) => {
         return;
     }
 
-    /* A suggestion that was just picked is already in the results: fill in without waiting. */
-    selectExactMatch();
+    /* A picked suggestion is already in the results: fill in from it without searching again. */
+    if (selectExactMatch()) {
+        activeRequest?.abort();
+        isSearching.value = false;
+
+        return;
+    }
+
     searchTimeout = setTimeout(() => search(value), SEARCH_DELAY_MS);
 });
 

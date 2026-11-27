@@ -95,7 +95,7 @@ const perPage = computed({
                 </Link>
                 <template v-else>
                     <div>{{ application.template_name }}</div>
-                    <div class="mt-0.5 text-xs text-muted">Template sudah dihapus</div>
+                    <div class="mt-0.5 text-xs text-danger">Template sudah dihapus</div>
                 </template>
             </td>
 

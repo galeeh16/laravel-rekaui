@@ -136,6 +136,7 @@ class DocumentTemplateController extends Controller
      */
     public function download(DocumentTemplate $documentTemplate): StreamedResponse
     {
+        /** @var Storage $disk */
         $disk = Storage::disk(DocumentTemplate::STORAGE_DISK);
 
         abort_unless($disk->exists($documentTemplate->path), 404);

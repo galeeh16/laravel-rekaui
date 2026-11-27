@@ -238,7 +238,7 @@ function destroyTemplate() {
         v-model:open="isRenameModalOpen"
         title="Edit Nama Template"
         :description="templateToRename ? `File: ${templateToRename.original_filename}` : null"
-        size="sm"
+        size="md"
     >
         <form id="rename-template-form" novalidate @submit.prevent="renameTemplate">
             <Input
