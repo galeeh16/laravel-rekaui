@@ -40,11 +40,12 @@ class PendudukController extends Controller
     private const MAX_SEARCH_RESULTS = 8;
 
     /**
-     * List residents, searchable by name or NIK.
+     * List residents, searchable by name or NIK and filterable by gender. An unknown gender shows everyone.
      */
     public function index(Request $request): Response
     {
         $search = $request->string('q')->trim()->toString();
+        $gender = Gender::tryFrom($request->string('jenis_kelamin')->toString());
 
         $perPage = $request->integer('per_page', self::DEFAULT_PER_PAGE);
         $perPage = in_array($perPage, self::PER_PAGE_OPTIONS, true) ? $perPage : self::DEFAULT_PER_PAGE;
@@ -54,6 +55,7 @@ class PendudukController extends Controller
                 ->whereLike('nama', "%{$search}%")
                 ->orWhereLike('nik', "%{$search}%")
             ))
+            ->when($gender, fn (Builder $query) => $query->where('jenis_kelamin', $gender))
             ->orderBy('nama')
             ->orderBy('id')
             ->paginate($perPage)
@@ -77,6 +79,8 @@ class PendudukController extends Controller
         return Inertia::render('Penduduk/Index', [
             'residents' => $residents,
             'search' => $search,
+            'gender' => $gender?->value,
+            'genderOptions' => Gender::options(),
             'perPage' => $perPage,
             'perPageOptions' => self::PER_PAGE_OPTIONS,
         ]);

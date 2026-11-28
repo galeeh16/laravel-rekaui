@@ -92,6 +92,28 @@ test('the list searches by name or NIK', function (string $search, array $expect
     'no match' => ['Joko', []],
 ]);
 
+test('the list filters by gender', function (array $query, ?string $expectedGender, array $expectedNames) {
+    Penduduk::factory()->create(['nama' => 'Budi Santoso', 'jenis_kelamin' => Gender::Male]);
+    Penduduk::factory()->create(['nama' => 'Siti Aminah', 'jenis_kelamin' => Gender::Female]);
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('penduduk.index', $query))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('gender', $expectedGender)
+            ->where('genderOptions', [
+                ['value' => 'male', 'label' => 'Laki-laki'],
+                ['value' => 'female', 'label' => 'Perempuan'],
+            ])
+            ->where('residents.data', fn ($residents) => collect($residents)->pluck('nama')->all() === $expectedNames)
+        );
+})->with([
+    'male' => [['jenis_kelamin' => 'male'], 'male', ['Budi Santoso']],
+    'female' => [['jenis_kelamin' => 'female'], 'female', ['Siti Aminah']],
+    'together with a search' => [['jenis_kelamin' => 'female', 'q' => 'a'], 'female', ['Siti Aminah']],
+    'unknown gender shows everyone' => [['jenis_kelamin' => 'unknown'], null, ['Budi Santoso', 'Siti Aminah']],
+]);
+
 test('the list respects the selected rows per page and falls back to the default', function () {
     Penduduk::factory()->count(7)->create();
     $user = User::factory()->create();

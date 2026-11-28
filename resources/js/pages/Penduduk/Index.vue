@@ -14,6 +14,9 @@ import { formatCalendarDate, formatDateTime } from '@/lib/format';
 const props = defineProps({
     residents: { type: Object, required: true },
     search: { type: String, default: '' },
+    /** Selected gender filter (`male` / `female`), or null for everyone. */
+    gender: { type: String, default: null },
+    genderOptions: { type: Array, required: true },
     perPage: { type: Number, required: true },
     perPageOptions: { type: Array, required: true },
 });
@@ -42,15 +45,21 @@ watch(search, (value) => {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
-        reload({ q: value, per_page: props.perPage });
+        reload({ q: value, jenis_kelamin: props.gender, per_page: props.perPage });
     }, 300);
 });
 
 onBeforeUnmount(() => clearTimeout(searchTimeout));
 
+/** Clearing the select (null) shows every gender again. */
+const gender = computed({
+    get: () => props.gender,
+    set: (value) => reload({ q: props.search, jenis_kelamin: value, per_page: props.perPage }),
+});
+
 const perPage = computed({
     get: () => props.perPage,
-    set: (value) => reload({ q: props.search, per_page: value }),
+    set: (value) => reload({ q: props.search, jenis_kelamin: props.gender, per_page: value }),
 });
 
 const residentToDelete = ref(null);
@@ -78,13 +87,22 @@ function destroyResident() {
     <div class="flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:justify-between lg:pt-10">
         <div>
             <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Penduduk</h1>
-            <p class="mt-3 text-muted">Data penduduk yang terdaftar. Cari berdasarkan nama atau NIK.</p>
+            <p class="mt-3 text-muted">Data penduduk yang terdaftar. Cari berdasarkan nama atau NIK, dan saring menurut jenis kelamin.</p>
         </div>
 
         <Button :href="route('penduduk.create')" size="lg" icon="plus">Create Penduduk</Button>
     </div>
 
-    <div class="mt-8 flex justify-end">
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+        <Select
+            v-model="gender"
+            :options="genderOptions"
+            placeholder="Semua jenis kelamin"
+            clearable
+            class="shrink-0 sm:w-56"
+            aria-label="Filter jenis kelamin"
+        />
+
         <form role="search" class="w-full lg:max-w-sm" @submit.prevent>
             <Input v-model="search" type="search" icon="search" placeholder="Nama atau NIK" aria-label="Cari penduduk" />
         </form>
@@ -149,8 +167,8 @@ function destroyResident() {
             </td>
         </tr>
 
-        <tr v-if="residents.data.length === 0 && props.search">
-            <td colspan="14" class="py-14 text-center text-muted">Tidak ada penduduk yang cocok dengan pencarian ini.</td>
+        <tr v-if="residents.data.length === 0 && (props.search || props.gender)">
+            <td colspan="14" class="py-14 text-center text-muted">Tidak ada penduduk yang cocok dengan pencarian atau filter ini.</td>
         </tr>
 
         <tr v-else-if="residents.data.length === 0">
