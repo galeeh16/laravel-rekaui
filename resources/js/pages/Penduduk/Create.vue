@@ -46,7 +46,7 @@ function submit() {
             List Penduduk
         </Link>
 
-        <h1 class="mt-3 text-4xl font-medium tracking-tight sm:text-5xl">Create Penduduk</h1>
+        <h1 class="mt-3 text-4xl font-medium tracking-tight sm:text-5xl">Tambah Penduduk</h1>
         <p class="mt-3 text-muted">Tambahkan data penduduk satu per satu, atau sekaligus dari file Excel.</p>
     </div>
 

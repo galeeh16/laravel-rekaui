@@ -110,22 +110,23 @@ function destroyTemplate() {
 <template>
     <Head title="List Dokumen" />
 
-    <div class="flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:justify-between lg:pt-10">
-        <div>
-            <h1 class="text-3xl font-medium tracking-tight sm:text-4xl">List Template</h1>
-            <p class="mt-3 text-muted">Template Word yang sudah diunggah. Pilih salah satu untuk mengisi dan mengunduh dokumennya.</p>
-        </div>
-
-        <Button :href="route('document-templates.create')" size="lg" icon="plus">Buat Template</Button>
+    <div class="pt-6 lg:pt-10">
+        <h1 class="text-3xl font-medium tracking-tight sm:text-4xl">List Template</h1>
+        <p class="mt-3 text-muted">Template Word yang sudah diunggah. Pilih salah satu untuk mengisi dan mengunduh dokumennya.</p>
     </div>
 
-    <div class="mt-8 flex justify-end">
-        <form role="search" class="w-full lg:max-w-sm" @submit.prevent>
-            <Input v-model="search" type="search" icon="search" placeholder="Nama template, file, atau variabel" aria-label="Cari template" />
-        </form>
-    </div>
+    <Table class="mt-8">
+        <template #toolbar>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <Button :href="route('document-templates.create')" size="lg" icon="plus" class="w-full sm:w-auto">
+                    Buat Template
+                </Button>
 
-    <Table class="mt-4">
+                <form role="search" class="min-w-0 w-full sm:max-w-sm" @submit.prevent>
+                    <Input v-model="search" type="search" icon="search" placeholder="Nama template, file, atau variabel" aria-label="Cari template" />
+                </form>
+            </div>
+        </template>
         <template #head>
             <th class="w-14 text-center">No</th>
             <th>Template</th>

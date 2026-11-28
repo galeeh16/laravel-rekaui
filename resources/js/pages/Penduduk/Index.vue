@@ -84,31 +84,35 @@ function destroyResident() {
 <template>
     <Head title="List Penduduk" />
 
-    <div class="flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:justify-between lg:pt-10">
-        <div>
-            <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Penduduk</h1>
-            <p class="mt-3 text-muted">Data penduduk yang terdaftar. Cari berdasarkan nama atau NIK, dan saring menurut jenis kelamin.</p>
-        </div>
-
-        <Button :href="route('penduduk.create')" size="lg" icon="plus">Create Penduduk</Button>
+    <div class="pt-6 lg:pt-10">
+        <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Penduduk</h1>
+        <p class="mt-3 text-muted">Data penduduk yang terdaftar. Cari berdasarkan nama atau NIK, dan saring menurut jenis kelamin.</p>
     </div>
 
-    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-        <Select
-            v-model="gender"
-            :options="genderOptions"
-            placeholder="Semua jenis kelamin"
-            clearable
-            class="shrink-0 sm:w-56"
-            aria-label="Filter jenis kelamin"
-        />
+    <Table class="mt-8">
+        <template #toolbar>
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <Button :href="route('penduduk.create')" size="lg" icon="plus" class="w-full sm:w-auto sm:self-start lg:self-auto">
+                    Tambah Penduduk
+                </Button>
 
-        <form role="search" class="w-full lg:max-w-sm" @submit.prevent>
-            <Input v-model="search" type="search" icon="search" placeholder="Nama atau NIK" aria-label="Cari penduduk" />
-        </form>
-    </div>
+                <div class="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center lg:flex-1 lg:justify-end">
+                    <Select
+                        v-model="gender"
+                        :options="genderOptions"
+                        placeholder="Semua jenis kelamin"
+                        clearable
+                        class="shrink-0 sm:w-56"
+                        aria-label="Filter jenis kelamin"
+                    />
 
-    <Table class="mt-4">
+                    <form role="search" class="min-w-0 w-full sm:flex-1 lg:max-w-sm" @submit.prevent>
+                        <Input v-model="search" type="search" icon="search" placeholder="Nama atau NIK" aria-label="Cari penduduk" />
+                    </form>
+                </div>
+            </div>
+        </template>
+
         <template #head>
             <th class="w-14 text-center">No</th>
             <th>Nama</th>
@@ -174,7 +178,7 @@ function destroyResident() {
         <tr v-else-if="residents.data.length === 0">
             <td colspan="14" class="py-14 text-center">
                 <p class="text-muted">Belum ada data penduduk.</p>
-                <Button :href="route('penduduk.create')" variant="secondary" size="sm" icon="plus" class="mt-3">Create Penduduk</Button>
+                <Button :href="route('penduduk.create')" variant="secondary" size="sm" icon="plus" class="mt-3">Tambah Penduduk</Button>
             </td>
         </tr>
 

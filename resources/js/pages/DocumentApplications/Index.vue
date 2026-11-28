@@ -52,22 +52,23 @@ const perPage = computed({
 <template>
     <Head title="List Pengajuan" />
 
-    <div class="flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:justify-between lg:pt-10">
-        <div>
-            <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Pengajuan</h1>
-            <p class="mt-3 text-muted">Riwayat dokumen dan surat yang diajukan oleh penduduk, dari yang terbaru.</p>
-        </div>
-
-        <Button :href="route('document-applications.create')" size="lg" icon="plus">Buat Pengajuan</Button>
+    <div class="pt-6 lg:pt-10">
+        <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">List Pengajuan</h1>
+        <p class="mt-3 text-muted">Riwayat dokumen dan surat yang diajukan oleh penduduk, dari yang terbaru.</p>
     </div>
 
-    <div class="mt-8 flex justify-end">
-        <form role="search" class="w-full lg:max-w-sm" @submit.prevent>
-            <Input v-model="search" type="search" icon="search" placeholder="Nama, NIK, dokumen, atau keperluan" aria-label="Cari pengajuan" />
-        </form>
-    </div>
+    <Table class="mt-8">
+        <template #toolbar>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <Button :href="route('document-applications.create')" size="lg" icon="plus" class="w-full sm:w-auto">
+                    Buat Pengajuan
+                </Button>
 
-    <Table class="mt-4">
+                <form role="search" class="min-w-0 w-full sm:max-w-sm" @submit.prevent>
+                    <Input v-model="search" type="search" icon="search" placeholder="Nama, NIK, dokumen, atau keperluan" aria-label="Cari pengajuan" />
+                </form>
+            </div>
+        </template>
         <template #head>
             <th class="w-14 text-center">No</th>
             <th>Pemohon</th>

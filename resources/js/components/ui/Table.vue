@@ -1,6 +1,8 @@
 <!--
     Usage:
     <Table>
+        <template #toolbar>...</template>
+
         <template #head>
             <th>Nomor</th>
             <th class="text-right">Aksi</th>
@@ -13,6 +15,10 @@
 -->
 <template>
     <div class="relative overflow-hidden rounded-2xl border border-line bg-surface shadow-xs">
+        <div v-if="$slots.toolbar" class="border-b border-line px-5 py-4">
+            <slot name="toolbar" />
+        </div>
+
         <div class="scrollbar-brand relative overflow-x-auto">
             <table
                 class="w-full text-left text-sm [&_td]:px-5 [&_td]:py-4 [&_th]:px-5 [&_th]:py-3.5 [&_th]:font-normal [&_th]:whitespace-nowrap [&_th]:text-muted"
