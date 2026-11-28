@@ -86,7 +86,7 @@ const statusActions = {
         <Button size="lg" icon="plus" @click="openNewLetterModal">Surat baru</Button>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard tone="peach" icon="clock" label="Menunggu balasan" :value="statusCounts.awaiting ?? 0" caption="surat belum dibalas" />
         <StatCard tone="sky" icon="triangle-alert" label="Terlambat" :value="statusCounts.overdue ?? 0" :caption="overdueRecipients || 'Tidak ada'" />
         <StatCard tone="mint" icon="arrow-down-left" label="Sudah dibalas" :value="statusCounts.sent ?? 0" caption="bulan ini" />

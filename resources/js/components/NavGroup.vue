@@ -5,14 +5,18 @@ defineProps({
 </script>
 
 <template>
-    <div class="flex flex-col gap-0.5">
+    <div class="flex flex-col">
         <div
             v-if="heading"
-            class="px-3 pb-1.5 text-xs font-medium tracking-[0.12em] text-muted uppercase lg:sidebar-collapsed:hidden"
+            class="h-6 overflow-hidden px-3.5 transition-[height,opacity] duration-240 ease-sidebar motion-reduce:transition-none lg:sidebar-collapsed:h-0 lg:sidebar-collapsed:opacity-0"
         >
-            {{ heading }}
+            <span class="block pb-2 text-xs font-medium tracking-[0.12em] whitespace-nowrap text-muted uppercase">
+                {{ heading }}
+            </span>
         </div>
 
-        <slot />
+        <div class="flex flex-col gap-0.5">
+            <slot />
+        </div>
     </div>
 </template>

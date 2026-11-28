@@ -22,7 +22,7 @@ const toneClasses = {
 </script>
 
 <template>
-    <div :class="['flex flex-col rounded-2xl p-5', toneClasses[tone]]">
+    <div :class="['flex min-w-0 flex-col rounded-2xl p-5', toneClasses[tone]]">
         <div class="flex items-center gap-2 text-sm text-ink">
             <Icon v-if="icon" :name="icon" class="size-4.5" />
             {{ label }}

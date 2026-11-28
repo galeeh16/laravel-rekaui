@@ -2,20 +2,20 @@
 /**
  * Sidebar item with nested links (multi-level navigation).
  * Expanded sidebar: a reka-ui Collapsible that opens automatically when a child is active.
- * Collapsed desktop sidebar: the icon opens the children as a flyout menu, and shows the label in a tooltip.
+ * Collapsed desktop sidebar: the same trigger opens the children as a flyout menu and shows the label in a tooltip.
  *
  * Usage: <NavCollapsible label="Components" icon="component" :children="[{ label, href, active }]" />
  */
 import { Link } from '@inertiajs/vue3';
-import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
-import { computed, ref, watch } from 'vue';
+import { CollapsibleContent, CollapsibleRoot } from 'reka-ui';
+import { computed, inject, ref, watch } from 'vue';
 import DropdownMenu from '@/components/ui/DropdownMenu.vue';
 import DropdownMenuItem from '@/components/ui/DropdownMenuItem.vue';
 import DropdownMenuLabel from '@/components/ui/DropdownMenuLabel.vue';
 import Icon from '@/components/ui/Icon.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
 import { useCurrentPage } from '@/composables/useCurrentPage';
-import { useSidebar } from '@/composables/useSidebar';
+import { mobileSidebarKey, useSidebar } from '@/composables/useSidebar';
 
 const props = defineProps({
     label: { type: String, required: true },
@@ -37,38 +37,136 @@ watch(hasActiveChild, (active) => {
 });
 
 const { isCollapsed } = useSidebar();
+const isMobileSidebar = inject(mobileSidebarKey, false);
+
+const showsFlyout = computed(() => isCollapsed.value && !isMobileSidebar);
+
+/**
+ * Remember the user's open preference while smoothly closing inline children when the desktop
+ * sidebar collapses (and re-opening them when it expands again).
+ */
+const isExpandedOpen = computed({
+    get: () => isOpen.value && !showsFlyout.value,
+    set: (value) => {
+        isOpen.value = value;
+    },
+});
+
+const isFlyoutOpen = ref(false);
+const isTooltipOpen = ref(false);
+
+watch(showsFlyout, (collapsed) => {
+    if (!collapsed) {
+        isFlyoutOpen.value = false;
+        isTooltipOpen.value = false;
+    }
+});
+
+function handleFlyoutOpenChange(nextOpen) {
+    if (!showsFlyout.value) {
+        isFlyoutOpen.value = false;
+
+        return;
+    }
+
+    isFlyoutOpen.value = nextOpen;
+
+    if (nextOpen) {
+        isTooltipOpen.value = false;
+    }
+}
+
+function handleTriggerClick() {
+    if (!showsFlyout.value) {
+        isOpen.value = !isOpen.value;
+    }
+}
+
+function handleTriggerKeydown(event) {
+    if (!showsFlyout.value && !event.repeat && (event.key === 'Enter' || event.key === ' ')) {
+        isOpen.value = !isOpen.value;
+    }
+}
 
 /**
  * The tooltip is attached to the wrapper around the flyout menu, because its trigger cannot also be the
  * menu's trigger button. Hover works through the wrapper; keyboard focus does not bubble as `focus`,
  * so the tooltip is opened from `focusin` here (keyboard focus only, not a mouse click).
  */
-const isTooltipOpen = ref(false);
-
 function showTooltipOnKeyboardFocus(event) {
-    if (isCollapsed.value && event.target.matches(':focus-visible')) {
+    if (showsFlyout.value && event.target.matches(':focus-visible')) {
         isTooltipOpen.value = true;
     }
 }
 </script>
 
 <template>
-    <!-- Expanded sidebar -->
-    <CollapsibleRoot v-model:open="isOpen" class="lg:sidebar-collapsed:hidden">
-        <CollapsibleTrigger
-            :class="[
-                'flex h-11 w-full cursor-pointer items-center gap-3 rounded-xl px-3 text-left text-[0.875rem] transition-colors',
-                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
-                hasActiveChild ? 'font-medium text-ink' : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
-            ]"
-        >
-            <Icon v-if="icon" :name="icon" :class="['size-5', hasActiveChild ? 'text-brand' : 'text-muted']" />
-            <span class="flex-1 truncate">{{ label }}</span>
-            <Icon name="chevron-down" :class="['size-4 text-muted transition-transform duration-200', { 'rotate-180': isOpen }]" />
-        </CollapsibleTrigger>
+    <CollapsibleRoot v-model:open="isExpandedOpen">
+        <Tooltip v-model:open="isTooltipOpen" :content="label" side="right" :delay-duration="100" :disabled="!showsFlyout">
+            <div @focusin="showTooltipOnKeyboardFocus" @focusout="isTooltipOpen = false">
+                <DropdownMenu :open="isFlyoutOpen" side="right" align="start" width="w-60" @update:open="handleFlyoutOpenChange">
+                    <template #trigger>
+                        <button
+                            type="button"
+                            :aria-label="label"
+                            :aria-haspopup="showsFlyout ? 'menu' : undefined"
+                            :aria-expanded="showsFlyout ? isFlyoutOpen : isExpandedOpen"
+                            :class="[
+                                'group flex h-11 w-full cursor-pointer items-center overflow-hidden rounded-xl pl-3.5 text-left text-[0.875rem] transition-colors',
+                                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+                                hasActiveChild
+                                    ? 'font-medium text-ink lg:sidebar-collapsed:bg-brand-soft'
+                                    : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
+                            ]"
+                            @click="handleTriggerClick"
+                            @keydown="handleTriggerKeydown"
+                        >
+                            <Icon
+                                v-if="icon"
+                                :name="icon"
+                                :class="[
+                                    'size-5 transition-colors',
+                                    hasActiveChild ? 'text-brand' : 'text-muted lg:sidebar-collapsed:group-hover:text-ink',
+                                ]"
+                            />
 
-        <CollapsibleContent class="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-            <ul class="mt-0.5 ml-5 flex flex-col gap-0.5 border-l border-line py-1 pl-3">
+                            <span
+                                :class="[
+                                    'sidebar-label flex min-w-0 flex-1 items-center gap-2 pr-3 lg:sidebar-collapsed:w-[178px] lg:sidebar-collapsed:flex-none',
+                                    { 'ml-3': icon },
+                                ]"
+                            >
+                                <span class="min-w-0 flex-1 truncate">{{ label }}</span>
+                                <Icon
+                                    name="chevron-down"
+                                    :class="['size-4 text-muted transition-transform duration-200', { 'rotate-180': isOpen }]"
+                                />
+                            </span>
+                        </button>
+                    </template>
+
+                    <DropdownMenuLabel>{{ label }}</DropdownMenuLabel>
+
+                    <div class="max-h-[60vh] overflow-y-auto">
+                        <!-- Without `href` the item for the open page only closes the menu instead of reloading it. -->
+                        <DropdownMenuItem
+                            v-for="child in children"
+                            :key="child.href"
+                            :href="isCurrentPage(child.href) ? null : child.href"
+                        >
+                            <span :class="{ 'font-medium text-brand-ink': child.active }">{{ child.label }}</span>
+                        </DropdownMenuItem>
+                    </div>
+                </DropdownMenu>
+            </div>
+        </Tooltip>
+
+        <CollapsibleContent
+            class="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down motion-reduce:animate-none"
+        >
+            <ul
+                class="mt-0.5 ml-6 flex flex-col gap-0.5 border-l border-line py-1 pl-3 transition-opacity duration-100 motion-reduce:transition-none lg:sidebar-collapsed:w-48 lg:sidebar-collapsed:opacity-0"
+            >
                 <li v-for="child in children" :key="child.href" class="relative">
                     <!-- Brand dot with a soft halo on the vertical line next to the active link, centered on the 1px border. -->
                     <span
@@ -94,34 +192,4 @@ function showTooltipOnKeyboardFocus(event) {
             </ul>
         </CollapsibleContent>
     </CollapsibleRoot>
-
-    <!-- Collapsed desktop sidebar -->
-    <Tooltip v-model:open="isTooltipOpen" :content="label" side="right" :delay-duration="100" :disabled="!isCollapsed">
-        <div class="hidden lg:sidebar-collapsed:block" @focusin="showTooltipOnKeyboardFocus" @focusout="isTooltipOpen = false">
-            <DropdownMenu side="right" align="start" width="w-60">
-                <template #trigger>
-                    <button
-                        type="button"
-                        :aria-label="label"
-                        :class="[
-                            'flex h-11 w-full cursor-pointer items-center justify-center rounded-xl transition-colors',
-                            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
-                            hasActiveChild ? 'bg-brand-soft text-brand' : 'text-muted hover:bg-ink/5 hover:text-ink',
-                        ]"
-                    >
-                        <Icon v-if="icon" :name="icon" class="size-5" />
-                    </button>
-                </template>
-
-                <DropdownMenuLabel>{{ label }}</DropdownMenuLabel>
-
-                <div class="max-h-[60vh] overflow-y-auto">
-                    <!-- Without `href` the item for the open page only closes the menu instead of reloading it. -->
-                    <DropdownMenuItem v-for="child in children" :key="child.href" :href="isCurrentPage(child.href) ? null : child.href">
-                        <span :class="{ 'font-medium text-brand-ink': child.active }">{{ child.label }}</span>
-                    </DropdownMenuItem>
-                </div>
-            </DropdownMenu>
-        </div>
-    </Tooltip>
 </template>

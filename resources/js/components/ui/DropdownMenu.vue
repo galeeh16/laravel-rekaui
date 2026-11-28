@@ -23,6 +23,8 @@
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import MenuItems from './MenuItems.vue';
 
+const open = defineModel('open', { type: Boolean, default: undefined });
+
 defineProps({
     align: { type: String, default: 'end' },
     side: { type: String, default: 'bottom' },
@@ -33,7 +35,7 @@ defineProps({
 </script>
 
 <template>
-    <DropdownMenuRoot>
+    <DropdownMenuRoot v-model:open="open">
         <DropdownMenuTrigger as-child>
             <slot name="trigger" />
         </DropdownMenuTrigger>

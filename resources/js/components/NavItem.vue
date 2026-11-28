@@ -53,7 +53,7 @@ const element = computed(() => {
             :aria-label="label"
             :aria-current="active ? 'page' : undefined"
             :class="[
-                'flex h-11 items-center gap-3 rounded-xl px-3 text-[0.875rem] transition-colors lg:sidebar-collapsed:justify-center lg:sidebar-collapsed:px-0',
+                'flex h-11 items-center overflow-hidden rounded-xl pl-3.5 text-[0.875rem] transition-colors',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
                 active ? 'bg-brand-soft font-medium text-brand-ink' : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
                 { 'cursor-default': isOnThisPage },
@@ -61,8 +61,16 @@ const element = computed(() => {
             @click="href ? undefined : $event.preventDefault()"
         >
             <Icon v-if="icon" :name="icon" :class="['size-5', active ? 'text-brand' : 'text-muted']" />
-            <span class="flex-1 truncate lg:sidebar-collapsed:hidden">{{ label }}</span>
-            <Count v-if="count !== null" variant="dark" class="lg:sidebar-collapsed:hidden">{{ count }}</Count>
+
+            <span
+                :class="[
+                    'sidebar-label flex min-w-0 flex-1 items-center gap-2 pr-3 lg:sidebar-collapsed:w-[178px] lg:sidebar-collapsed:flex-none',
+                    { 'ml-3': icon },
+                ]"
+            >
+                <span class="min-w-0 flex-1 truncate">{{ label }}</span>
+                <Count v-if="count !== null" variant="dark" class="shrink-0">{{ count }}</Count>
+            </span>
         </component>
     </Tooltip>
 </template>

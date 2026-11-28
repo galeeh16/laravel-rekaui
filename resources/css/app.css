@@ -8,6 +8,7 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 
     /* Animations for reka-ui popovers (dropdown, select) and the mobile drawer */
+    --ease-sidebar: cubic-bezier(0.2, 0, 0, 1);
     --animate-pop-in: pop-in 140ms ease-out;
     --animate-pop-out: pop-out 100ms ease-in;
     --animate-fade-in: fade-in 180ms ease-out;
@@ -488,5 +489,28 @@
         &:has(:focus-visible) {
             scrollbar-color: color-mix(in oklab, var(--color-brand) 50%, transparent) transparent;
         }
+    }
+}
+
+/*
+ * Compositor-only opacity transition for labels inside the collapsible desktop sidebar.
+ * Collapsing fades text out quickly before the shrinking edge reaches it; expanding waits
+ * briefly so text reveals into already-opened space without cramped truncation.
+ */
+@utility sidebar-label {
+    opacity: 1;
+    transition: opacity 180ms ease-out 70ms;
+
+    @media (width >= 64rem) {
+        &:where([data-sidebar-collapsed] *) {
+            opacity: 0;
+            pointer-events: none;
+            transition-duration: 90ms;
+            transition-delay: 0ms;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
     }
 }

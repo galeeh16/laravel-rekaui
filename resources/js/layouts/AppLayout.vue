@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
     <div class="flex min-h-screen">
         <!-- Desktop sidebar -->
         <aside
-            class="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-line bg-sidebar p-4 transition-[width] duration-200 lg:flex lg:sidebar-collapsed:w-20 lg:sidebar-collapsed:px-3"
+            class="sticky top-0 hidden h-screen w-64 shrink-0 flex-col overflow-x-clip bg-sidebar p-4 transition-[width] duration-240 ease-sidebar contain-layout contain-style motion-reduce:transition-none lg:flex lg:sidebar-collapsed:w-20"
         >
             <AppSidebar />
         </aside>
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
         </DialogRoot>
 
         <!-- Main -->
-        <div class="flex min-w-0 flex-1 flex-col">
+        <div class="flex min-w-0 flex-1 flex-col lg:border-l lg:border-line">
             <header
                 :class="[
                     'sticky top-0 z-30 flex items-center gap-3 border-b bg-canvas/85 px-4 py-4 backdrop-blur-md transition-[border-color,box-shadow] duration-200 sm:px-6 lg:px-10',

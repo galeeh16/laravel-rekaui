@@ -91,11 +91,16 @@ const componentLinks = computed(() => [
 
 <template>
     <div class="flex min-h-0 flex-1 flex-col">
-        <div class="flex items-center gap-3 lg:sidebar-collapsed:flex-col">
-            <Link :href="route('dashboard')" class="flex min-w-0 flex-1 items-center gap-3">
+        <div
+            class="relative flex h-10 shrink-0 items-center transition-[height] duration-240 ease-sidebar motion-reduce:transition-none lg:sidebar-collapsed:h-[84px]"
+        >
+            <Link
+                :href="route('dashboard')"
+                class="flex min-w-0 flex-1 items-center self-start overflow-hidden pr-10 pl-1 lg:sidebar-collapsed:pr-0"
+            >
                 <AppLogo />
 
-                <span class="min-w-0 lg:sidebar-collapsed:hidden">
+                <span class="sidebar-label ml-3 min-w-0 flex-1 lg:sidebar-collapsed:w-32 lg:sidebar-collapsed:flex-none">
                     <span class="block truncate text-lg leading-tight font-semibold">{{ appName }}</span>
                     <span class="block truncate text-xs text-muted">Manajemen surat</span>
                 </span>
@@ -107,19 +112,27 @@ const componentLinks = computed(() => [
                 size="icon-sm"
                 icon="x"
                 aria-label="Tutup menu"
+                class="absolute top-1 right-0"
                 @click="emit('close')"
             />
-            <Button
+            <div
                 v-else
-                variant="secondary"
-                size="icon-sm"
-                icon="panel-left"
-                aria-label="Ciutkan atau lebarkan sidebar"
-                @click="toggleCollapsed"
-            />
+                class="absolute top-1 right-0 transition-transform duration-240 ease-sidebar motion-reduce:transition-none lg:sidebar-collapsed:-translate-x-2 lg:sidebar-collapsed:translate-y-12"
+            >
+                <Button
+                    variant="secondary"
+                    size="icon-sm"
+                    icon="panel-left"
+                    aria-label="Ciutkan atau lebarkan sidebar"
+                    @click="toggleCollapsed"
+                />
+            </div>
         </div>
 
-        <nav class="-mx-1 mt-6 flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-1" aria-label="Menu utama">
+        <nav
+            class="scrollbar-brand -mx-1 mt-6 flex flex-1 flex-col gap-6 overflow-x-hidden overflow-y-auto overscroll-contain px-1"
+            aria-label="Menu utama"
+        >
             <NavGroup heading="Utama">
                 <NavItem v-for="item in mainNavigation" :key="item.label" v-bind="item" />
                 <NavCollapsible label="Dokumen Template" icon="folder-open" :children="documentLinks" />
@@ -133,29 +146,40 @@ const componentLinks = computed(() => [
         </nav>
 
         <div class="mt-4 flex flex-col gap-0.5">
-            <div
-                class="flex h-11 items-center gap-3 border-t border-line px-3 pt-2 lg:sidebar-collapsed:justify-center lg:sidebar-collapsed:px-0"
-            >
-                <Icon name="sun" class="size-5 text-muted lg:sidebar-collapsed:hidden" />
-                <span class="flex-1 text-[0.875rem] text-ink/80 lg:sidebar-collapsed:hidden">Mode gelap</span>
-                <Switch v-model="darkMode" aria-label="Mode gelap" />
+            <div class="border-t border-line pt-2">
+                <div class="relative flex h-9 items-center overflow-hidden">
+                    <div class="sidebar-label flex shrink-0 items-center gap-3 pl-3.5">
+                        <Icon name="sun" class="size-5 text-muted" />
+                        <span class="text-[0.875rem] whitespace-nowrap text-ink/80">Mode gelap</span>
+                    </div>
+
+                    <div
+                        class="absolute top-1/2 right-1 -translate-x-2 -translate-y-1/2 transition-transform duration-240 ease-sidebar motion-reduce:transition-none lg:sidebar-collapsed:translate-x-0"
+                    >
+                        <Switch v-model="darkMode" aria-label="Mode gelap" />
+                    </div>
+                </div>
             </div>
 
             <DropdownMenu side="top" align="start" width="w-60">
                 <template #trigger>
                     <button
                         type="button"
-                        class="mt-3 flex w-full cursor-pointer items-center gap-3 rounded-xl border border-line bg-surface p-2 text-left shadow-xs transition-colors hover:bg-canvas lg:sidebar-collapsed:justify-center lg:sidebar-collapsed:border-transparent lg:sidebar-collapsed:bg-transparent lg:sidebar-collapsed:shadow-none"
+                        class="mt-3 flex w-full cursor-pointer items-center overflow-hidden rounded-xl bg-surface py-2 pl-1.5 text-left shadow-xs ring-1 ring-line transition-[background-color,box-shadow] duration-200 ring-inset hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:transition-none lg:sidebar-collapsed:bg-transparent lg:sidebar-collapsed:shadow-none lg:sidebar-collapsed:ring-transparent"
                         aria-label="Menu akun"
                     >
                         <Avatar :name="user.name" />
 
-                        <span class="min-w-0 flex-1 lg:sidebar-collapsed:hidden">
-                            <span class="block truncate text-sm font-medium">{{ user.name }}</span>
-                            <span class="block truncate text-xs text-muted">{{ user.email }}</span>
-                        </span>
+                        <span
+                            class="sidebar-label ml-3 flex min-w-0 flex-1 items-center gap-2 pr-2.5 lg:sidebar-collapsed:w-[170px] lg:sidebar-collapsed:flex-none"
+                        >
+                            <span class="min-w-0 flex-1">
+                                <span class="block truncate text-sm font-medium">{{ user.name }}</span>
+                                <span class="block truncate text-xs text-muted">{{ user.email }}</span>
+                            </span>
 
-                        <Icon name="chevrons-up-down" class="size-4 text-muted lg:sidebar-collapsed:hidden" />
+                            <Icon name="chevrons-up-down" class="size-4 text-muted" />
+                        </span>
                     </button>
                 </template>
 
